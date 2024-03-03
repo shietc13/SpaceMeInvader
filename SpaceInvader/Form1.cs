@@ -107,8 +107,16 @@ namespace SpaceInvader
             {
                 MyRectangle tmpPowUp = PowerupList[i];
                 //g.DrawRectangle(new Pen(Brushes.Blue, 3), tmpPowUp.ActualRectangle);
-                g.FillRectangle(Brushes.Blue, tmpPowUp.ActualRectangle);
-
+                if (tmpPowUp.ID == "doubleshot")
+                {
+                    g.FillRectangle(Brushes.Blue, tmpPowUp.ActualRectangle);
+                }
+                if (tmpPowUp.ID == "tripleshot")
+                {
+                    g.FillRectangle(Brushes.Orange, tmpPowUp.ActualRectangle);
+                }
+                
+                
                 if (tmpPowUp.ActualRectangle.Y + movespeedPowerUps < this.Size.Height)
                 {
                     PowerupList.Remove(tmpPowUp);
@@ -135,8 +143,17 @@ namespace SpaceInvader
                     if (tmp.ID == "doubleshot")
                     {
                         doubleShots = true;
+                        tripleshots = false;
                         //todo start timer for double shot duration
-                        Console.WriteLine("power up active");
+                        Console.WriteLine("double shot active");
+                        PowerupList.Remove(PowerupList[i]);
+                    }
+                    if (tmp.ID == "tripleshot")
+                    {
+                        tripleshots = true;
+                        doubleShots = false;
+                        //todo start timer for triple shot
+                        Console.WriteLine("triple go!");
                         PowerupList.Remove(PowerupList[i]);
                     }
                 }
@@ -184,6 +201,13 @@ namespace SpaceInvader
                 //g.DrawRectangle(new Pen(Brushes.Blue, 3), doubleShotPupW.ActualRectangle);
                 g.FillRectangle(Brushes.Blue, doubleShotPupW.ActualRectangle);
                 PowerupList.Add(doubleShotPupW);
+            }
+            if (val >= 95)
+            {
+                Rectangle tripleShotPup = new Rectangle(para.X, para.Y, para.Width / 2, para.Height / 2);
+                MyRectangle tripleShotPupW = new MyRectangle(tripleShotPup, "tripleshot");
+                g.FillRectangle(Brushes.Orange, tripleShotPupW.ActualRectangle);
+                PowerupList.Add(tripleShotPupW);
             }
         }
 
