@@ -21,14 +21,15 @@ namespace SpaceInvader
         //system attribues        
         Graphics g;
 
-        Timer t = new Timer();
-        List<Rectangle> ShotList = new List<Rectangle>();
-        List<Rectangle> EnemyList = new List<Rectangle>();
-        List<MyRectangle> PowerupList = new List<MyRectangle>(); //red = triple shot, orange =double shot; blue = mvoement speed; green = piercing -> TODO
+        private Timer t = new Timer();
+        private List<Rectangle> ShotList = new List<Rectangle>();
+        private List<Rectangle> EnemyList = new List<Rectangle>();
+        private List<MyRectangle> PowerupList = new List<MyRectangle>(); //red = triple shot, orange =double shot; blue = mvoement speed; green = piercing -> TODO
 
         //player attributes
         Rectangle PlayerShip;
         MyRectangle PlayerShip2;
+
         private int movementspeed = 15;
         private int origmovementspeed = 15;
         private int shootspeed = 10;
@@ -105,7 +106,8 @@ namespace SpaceInvader
             for (int i = 0; i < PowerupList.Count(); i++)
             {
                 MyRectangle tmpPowUp = PowerupList[i];
-                g.DrawRectangle(new Pen(Brushes.Blue, 3), tmpPowUp.ActualRectangle);
+                //g.DrawRectangle(new Pen(Brushes.Blue, 3), tmpPowUp.ActualRectangle);
+                g.FillRectangle(Brushes.Blue, tmpPowUp.ActualRectangle);
 
                 if (tmpPowUp.ActualRectangle.Y + movespeedPowerUps < this.Size.Height)
                 {
@@ -176,10 +178,11 @@ namespace SpaceInvader
             int val = r.Next(1, 99);
             if (val <= 10)
             {
-                Rectangle doubleShotPup = new Rectangle(para.X, para.Y, para.Width, para.Height);
+                Rectangle doubleShotPup = new Rectangle(para.X, para.Y, para.Width/2, para.Height/2);
                 MyRectangle doubleShotPupW = new MyRectangle(doubleShotPup, "doubleshot");
 
-                g.DrawRectangle(new Pen(Brushes.Blue, 3), doubleShotPupW.ActualRectangle);
+                //g.DrawRectangle(new Pen(Brushes.Blue, 3), doubleShotPupW.ActualRectangle);
+                g.FillRectangle(Brushes.Blue, doubleShotPupW.ActualRectangle);
                 PowerupList.Add(doubleShotPupW);
             }
         }
