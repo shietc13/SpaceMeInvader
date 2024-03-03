@@ -1,0 +1,11 @@
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\bin\Debug\SpaceInvader.exe.config
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\bin\Debug\SpaceInvader.exe
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\bin\Debug\SpaceInvader.pdb
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.csproj.AssemblyReference.cache
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.csproj.SuggestedBindingRedirects.cache
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.Form1.resources
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.Properties.Resources.resources
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.csproj.GenerateResource.cache
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.csproj.CoreCompileInputs.cache
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.exe
+C:\Users\saiga\source\repos\SpaceInvader\SpaceInvader\obj\Debug\SpaceInvader.pdb
