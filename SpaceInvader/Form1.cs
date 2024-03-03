@@ -115,6 +115,10 @@ namespace SpaceInvader
                 {
                     g.FillRectangle(Brushes.Orange, tmpPowUp.ActualRectangle);
                 }
+                if (tmpPowUp.ID == "speedup")
+                {
+                    g.FillRectangle(Brushes.Green, tmpPowUp.ActualRectangle);
+                }
                 
                 
                 if (tmpPowUp.ActualRectangle.Y + movespeedPowerUps < this.Size.Height)
@@ -154,6 +158,13 @@ namespace SpaceInvader
                         doubleShots = false;
                         //todo start timer for triple shot
                         Console.WriteLine("triple go!");
+                        PowerupList.Remove(PowerupList[i]);
+                    }
+                    if (tmp.ID == "speedup")
+                    {
+                        Console.WriteLine("speed up");
+                        movementspeed = 20;
+                        //todo start timer for speed up duration
                         PowerupList.Remove(PowerupList[i]);
                     }
                 }
@@ -202,12 +213,19 @@ namespace SpaceInvader
                 g.FillRectangle(Brushes.Blue, doubleShotPupW.ActualRectangle);
                 PowerupList.Add(doubleShotPupW);
             }
-            if (val >= 95)
+            if (val >= 96)
             {
                 Rectangle tripleShotPup = new Rectangle(para.X, para.Y, para.Width / 2, para.Height / 2);
                 MyRectangle tripleShotPupW = new MyRectangle(tripleShotPup, "tripleshot");
                 g.FillRectangle(Brushes.Orange, tripleShotPupW.ActualRectangle);
                 PowerupList.Add(tripleShotPupW);
+            }
+            if ((val >= 11) && (val <= 50))
+            {
+                Rectangle speedUp = new Rectangle(para.X, para.Y, para.Width / 2, para.Height /2);
+                MyRectangle speedUpW = new MyRectangle(speedUp, "speedup");
+                g.FillRectangle (Brushes.Green, speedUpW.ActualRectangle);
+                PowerupList.Add(speedUpW);
             }
         }
 
@@ -244,7 +262,7 @@ namespace SpaceInvader
                 {
                     //game over                    
                     Console.WriteLine("game over");
-                    this.Text = "Game Over";
+                    this.Text += " Game Over";
                     t.Stop();
                 }
             }
