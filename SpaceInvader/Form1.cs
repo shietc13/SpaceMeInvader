@@ -53,10 +53,21 @@ namespace SpaceInvader
         private bool tripleshots = false;
         private int movespeedPowerUps = 1;
 
+        private int DoubleShotTick = 0;
+        private int TripleShotTick = 0;
+        private int SpeedUpTick = 0;
+
+        Dictionary<string, bool> powerUpActive = new Dictionary<string, bool>();
+
         private void Form1_Load(object sender, EventArgs e)
-        {
+        {            
             ShotList.Clear();
             this.Text = "SpaceMeInvader";
+
+            powerUpActive.Clear();
+            powerUpActive.Add("doubleshot", false);
+            powerUpActive.Add("tripleshot", false);
+            powerUpActive.Add("speedup", false);
 
             Console.WriteLine("starting game");
             Console.WriteLine("Width: " + this.Size.Width);
@@ -65,12 +76,12 @@ namespace SpaceInvader
             PlayerShip = new Rectangle(this.Size.Width/2,this.Size.Height - this.Size.Height/2,20,20);
             //PlayerShip2 = new MyRectangle(new Rectangle(1,1,2,2), "Player");
 
-            //todo show lifes as heart on the righ lower corner? maybe
             g = this.CreateGraphics();
 
             t.Interval = 10;
             t.Tick += new EventHandler(t_Tick);
             t.Start();
+
         }
         
         private void t_Tick(object sender, EventArgs e)
@@ -83,7 +94,7 @@ namespace SpaceInvader
             PlayerShip.X += move_x;
             PlayerShip.Y += move_y;
 
-            this.Text = "SpaceMeInvader - Score: " + Score + "  - Difficulty: " + Difficulty;
+            this.Text = "SpaceMeInvader - Score: " + Score + "  - Difficulty: " + Difficulty; // + " - Tick: " + TickCounter
             //generate enemies 
             GnerateAndMoveEnemies();
 
@@ -99,6 +110,63 @@ namespace SpaceInvader
             DrawShoots();
             //check shoot collision and award points if enemy hit and remove enemy and remove shot if not piercing
             CheckForShootEnemyCollision();
+
+            CountPowerUpTimes();
+            CheckPowerUpLimits();
+        }
+
+        private void CheckPowerUpLimits()
+        {
+            int dsLimit = 1500;
+            int tsLimit = 1000;
+            int msLimit = 1200;
+
+            if (DoubleShotTick >= dsLimit)
+            {
+                doubleShots = false;
+                DoubleShotTick = 0;
+                powerUpActive["doubleshot"] = false;
+            }
+            if (TripleShotTick >= tsLimit)
+            {
+                tripleshots = false;
+                TripleShotTick = 0;
+                powerUpActive["tripleshot"] = false;
+            }
+            if (SpeedUpTick >= msLimit)
+            {
+                movementspeed = origmovementspeed;
+                SpeedUpTick = 0;
+                powerUpActive["speedup"] = false;
+            }
+        }
+
+        private void CountPowerUpTimes()
+        {
+            foreach (KeyValuePair<string, bool> entry in powerUpActive)
+            {
+                switch (entry.Key)
+                {
+                    case "doubleshot":
+                        if (entry.Value)
+                        {
+                            DoubleShotTick += 1;
+                        }
+                        break;
+                    case "tripleshot":
+                        if (entry.Value)
+                        {
+                            TripleShotTick += 1;
+                        }
+                        break;
+                    case "speedup":
+                        if (entry.Value)
+                        {
+                            SpeedUpTick += 1;
+                        }
+                        break;
+                }
+            }
         }
 
         private void MovePowerUps()
@@ -119,8 +187,7 @@ namespace SpaceInvader
                 {
                     g.FillRectangle(Brushes.Green, tmpPowUp.ActualRectangle);
                 }
-                
-                
+                                
                 if (tmpPowUp.ActualRectangle.Y + movespeedPowerUps < this.Size.Height)
                 {
                     PowerupList.Remove(tmpPowUp);
@@ -148,7 +215,14 @@ namespace SpaceInvader
                     {
                         doubleShots = true;
                         tripleshots = false;
-                        //todo start timer for double shot duration
+                        
+                        bool tmpPup = false;
+                        powerUpActive.TryGetValue("doubleshot", out tmpPup);
+                        if (!tmpPup)
+                        {
+                            powerUpActive["doubleshot"] = true;
+                        }
+
                         Console.WriteLine("double shot active");
                         PowerupList.Remove(PowerupList[i]);
                     }
@@ -156,7 +230,14 @@ namespace SpaceInvader
                     {
                         tripleshots = true;
                         doubleShots = false;
-                        //todo start timer for triple shot
+
+                        bool tmpPup = false;
+                        powerUpActive.TryGetValue("tripleshot", out tmpPup);
+                        if (!tmpPup)
+                        {
+                            powerUpActive["tripleshot"] = true;
+                        }
+
                         Console.WriteLine("triple go!");
                         PowerupList.Remove(PowerupList[i]);
                     }
@@ -164,7 +245,14 @@ namespace SpaceInvader
                     {
                         Console.WriteLine("speed up");
                         movementspeed = 20;
-                        //todo start timer for speed up duration
+
+                        bool tmpPup = false;
+                        powerUpActive.TryGetValue("speedup", out tmpPup);
+                        if (!tmpPup)
+                        {
+                            powerUpActive["speedup"] = true;
+                        }
+
                         PowerupList.Remove(PowerupList[i]);
                     }
                 }
@@ -187,8 +275,6 @@ namespace SpaceInvader
 
                         EnemyList.Remove(EnemyList[y]);
 
-                        //todo dropchange -> Power Ups: piercing; Double/Triple Shot; movespeed; shootspeed
-                        // and do list with timers for each powerup 
 
                         if (!piercingShots)
                         {
